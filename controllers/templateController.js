@@ -1,6 +1,6 @@
 let express = require("express");
 let router = express.Router();
-let validateSession = require("../middleware/validate-session");
+let validateSession = require("../middleware/validate-sessionUser");
 const Temp = require("../db").import("../models/template");
 
 /*Template Makers can create & POST a new message template with 
