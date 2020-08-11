@@ -2,7 +2,6 @@ const router = require("express").Router();
 const Maker = require("../db").import("../models/templateMaker");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
 //New Template Maker is created/POSTs username & password.
 router.post("/maker", function (req, res) {
   Maker.create({
@@ -21,7 +20,6 @@ router.post("/maker", function (req, res) {
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
-
 //POST an existing Template Maker Login **RE-WORK THIS CODE**
 router.post("/maker/login", function (req, res) {
   Maker.findOne({
@@ -30,7 +28,7 @@ router.post("/maker/login", function (req, res) {
     },
   })
     .then(function loginSuccess(maker) {
-      if (user) {
+      if (maker) {
         bcrypt.compare(
           req.body.maker.passwordhash,
           maker.passwordhash,
@@ -39,9 +37,8 @@ router.post("/maker/login", function (req, res) {
               let token = jwt.sign({ id: maker.id }, process.env.JWT_SECRET, {
                 expiresIn: 60 * 60 * 24,
               });
-
               res.status(200).json({
-                user: user,
+                maker: maker,
                 message: "User successfully logged in!",
                 sessionToken: token,
               });
@@ -56,5 +53,4 @@ router.post("/maker/login", function (req, res) {
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
-
 module.exports = router;
