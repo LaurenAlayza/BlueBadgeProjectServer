@@ -1,7 +1,5 @@
-validate-sessionUser:
-8:01
 const jwt = require("jsonwebtoken");
-const User = require("../db").import("../models/user");
+const User = require("../db").import("../models/templateUser");
 const validateSessionUser = (req, res, next) => {
   if (req.method === "OPTIONS") {
     next();

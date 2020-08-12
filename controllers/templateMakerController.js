@@ -20,7 +20,7 @@ router.post("/maker", function (req, res) {
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
-//POST an existing Template Maker Login **RE-WORK THIS CODE**
+//POST an existing Template Maker Login
 router.post("/maker/login", function (req, res) {
   Maker.findOne({
     where: {

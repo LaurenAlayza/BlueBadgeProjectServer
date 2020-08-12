@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../db").import("../models/user");
+const Maker = require("../db").import("../models/templateMaker");
 const validateSessionMaker = (req, res, next) => {
   if (req.method === "OPTIONS") {
     next();
@@ -14,16 +14,16 @@ const validateSessionMaker = (req, res, next) => {
       jwt.verify(token, process.env.JWT_SECRET, (err, decodeToken) => {
         console.log("decodeToken --> ", decodeToken);
         if (!err && decodeToken) {
-          User.findOne({
+          Maker.findOne({
             where: {
               id: decodeToken.id,
             },
           })
-            .then((user) => {
-              console.log("user --> ", user);
-              if (!user) throw err;
+            .then((maker) => {
+              console.log("maker --> ", maker);
+              if (!maker) throw err;
               console.log("req --> ", req);
-              req.user = user;
+              req.maker = maker;
               return next();
             })
             .catch((err) => next(err));
