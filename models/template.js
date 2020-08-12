@@ -2,15 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const Temp = sequelize.define("temp", {
     subjLine: { type: DataTypes.STRING, allowNull: false },
     msgBody: { type: DataTypes.STRING, allowNull: false },
-    keys: { type: DataTypes.SET, allowNull: false},
+    keys: { type: DataTypes.STRING, allowNull: false},
     owner: { type: DataTypes.INTEGER },
+    //isPublic: {type:}
   });
   return Temp;
 };
-
-
-
-
 
 //OLD MODEL: 
 // module.exports = (sequelize, DataTypes) => {

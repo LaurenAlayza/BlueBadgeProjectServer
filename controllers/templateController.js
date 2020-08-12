@@ -14,9 +14,7 @@ router.post("/temp/create", validateSessionMaker, (req, res) => {
   const tempEntry = {
     subjLine: req.body.temp.subjLine,
     msgBody: req.body.temp.msgBody,
-    tag1: req.body.temp.tag1,
-    tag2: req.body.temp.tag2,
-    tag3: req.body.temp.tag3,
+    keys: req.body.temp.keys,
     owner: req.maker.id,
   };
   Temp.create(tempEntry)
@@ -37,14 +35,12 @@ router.get("/temp/:id", validateSessionMaker, (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-//Template Makers can PUT new or updated information into a previously created template.
+//Template Makers can PUT updated info in template.
 router.put("/temp/:id", validateSessionMaker, function (req, res) {
   const tempEntry = {
     subjLine: req.body.temp.subjLine,
     msgBody: req.body.temp.msgBody,
-    tag1: req.body.temp.tag1,
-    tag2: req.body.temp.tag2,
-    tag3: req.body.temp.tag3,
+    keys: req.body.temp.keys,
     owner: req.maker.id,
   };
   const query = { where: { id: req.params.id, owner: req.maker.id } };
@@ -66,19 +62,18 @@ router.delete("/temp/:id", validateSessionMaker, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-
 //                 TEMPLATE USER SECTION BELOW
 //Template Users can access templates by KEYWORD
-router.get("/temp/:keyword", validateSessionUser, (req, res) => {
+router.get("/temps/:keyword", validateSessionMaker, (req, res) => {
   let keyword = req.params.keyword;
-  let maker = req.maker.id;
-  sequelize.query(`select * from templates with keywords like '%${keyword}%'`)
-    
-    .then((temp) => res.status(200).json(temp))
-    .catch((err) => res.status(500).json({ error: err }));
+  sequelize
+    .query(`SELECT * from temps WHERE keys LIKE '%${keyword}%'`)
+
+    .then((temp) => res.status(200).json(temp));
+  //.catch((err) => res.status(500).json({ error: err }));
 });
 
 //Template Users can save favorite templates. **TBD**
-  //code is yet to be written for this part :)
+//code is yet to be written for this part :) **wishlist stretch goal**
 
 module.exports = router;
