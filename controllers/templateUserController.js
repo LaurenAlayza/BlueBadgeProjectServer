@@ -8,11 +8,17 @@ router.post("/user", function (req, res) {
   User.create({
     username: req.body.user.username,
     passwordhash: bcrypt.hashSync(req.body.user.passwordhash, 13),
+    accounttype: req.body.user.accounttype,
   })
     .then(function createSuccess(user) {
-      let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: 60 * 60 * 24,
-      });
+      console.log(user.accounttype);
+      let token = jwt.sign(
+        { id: user.id, accounttype: user.accounttype },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: 60 * 60 * 24,
+        }
+      );
 
       res.json({
         user: user,
@@ -37,9 +43,13 @@ router.post("/user/login", function (req, res) {
           matches
         ) {
           if (matches) {
-            let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-              expiresIn: 60 * 60 * 24,
-            });
+            let token = jwt.sign(
+              { id: user.id, accounttype: user.accounttype },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: 60 * 60 * 24,
+              }
+            );
 
             res.status(200).json({
               user: user,

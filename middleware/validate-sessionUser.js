@@ -5,7 +5,7 @@ const validateSessionUser = (req, res, next) => {
     next();
   } else {
     const token = req.headers.authorization;
-    console.log("token --> ", token);
+    // console.log("token --> ", token);
     if (!token) {
       return res
         .status(403)
@@ -20,9 +20,9 @@ const validateSessionUser = (req, res, next) => {
             },
           })
             .then((user) => {
-              console.log("user --> ", user);
+              // console.log("user --> ", user);
               if (!user) throw err;
-              console.log("req --> ", req);
+              // console.log("req --> ", req);
               req.user = user;
               return next();
             })

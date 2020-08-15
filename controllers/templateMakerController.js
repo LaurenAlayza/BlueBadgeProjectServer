@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 //New Template Maker is created/POSTs username & password.
 router.post("/maker", function (req, res) {
+ 
   Maker.create({
     username: req.body.maker.username,
     passwordhash: bcrypt.hashSync(req.body.maker.passwordhash, 13),
